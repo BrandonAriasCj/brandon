@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            html {
+                transition: 10s;
+            }
+            #areaBotones {
+                padding: 20px;
+                border-radius: 5px;
+            }
+            table, td, th {
+                color: blue;
+                border: 2px solid skyblue;
+                border-radius: 5px;
+            }
+            th {
+                background-color: skyblue;
+            }
+
+            td, th {
+                padding: 5px 10px;
+            }
+            td {
+                padding-right: 100px;
+            }
+
+            button {
+                margin: 0 10;
+                padding: 5 10;
+                border: 1px solid blue;
+                border-radius: 5px;
+                color: blue;
+                font-size: 10px;
+            }
+            #registro {
+                width: 80%;
+                margin: 100px auto; 
+            }
+        </style>
+    </head>
+	<body>
+        <div id="registro">
+            <div id="areaForm">
+                <form action="">
+                    <label for="nombreInput">Nombre:</label>
+                    <input type="text" id="nombreInput">
+                    <br><br>
+                    <label for="códigoInput">Código:</label>
+                    <input type="text" id="códigoInput">
+                    <br>
+                    <br>
+
+                </form>
+                <button id="grabar" onclick="leerDatosForm()">Crear</button>
+                <br><br>
+            </div>
+            <table id="tabla1">
+                <tr>
+                    <th>Orden</th>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                </tr>
+                <tr>
+                    <td class="orden">1</td>
+                    <td>Brandon Arias Cjuno</td>
+                    <td>117632</td>
+                </tr>
+                <tr>
+                    <td class="orden">2</td>
+                    <td>Axel loaiza Enciso</td>
+                    <td>118956</td>
+                </tr>
+            </table>
+            <div id="areaBotones">
+                <button id="add" onclick="leerDatosPrompt(); ordenar();">Añadir</button>
+                <button id="rem" onclick="eliminarFila(parseInt(prompt('ingrese la fila que desea elliminar'))); ordenar();">Eliminar</button>
+                <button id="masa" onclick="crearEnMasa(parseInt(prompt('ingrese la cantidad')))">Crear en masa</button>
+            </div>
+            <script>
+                const tabla = document.getElementById('tabla1');
+                function leerDatosForm(){
+                    const nombreForm = document.getElementById('nombreInput').value;
+                    const códigoForm = document.getElementById('códigoInput').value;
+                    añadirFila(nombreForm, códigoForm);
+                }
+
+                function leerDatosPrompt() {
+                    const nombrePrompt = prompt('Ingrese tu nombre');
+                    const códigoPrompt = prompt('Ingrese tu código');
+                    añadirFila(nombrePrompt, códigoPrompt);
+                }
+
+                function añadirFila(nombre, código) {
+                    if (nombre != '' && código != '' && código.length == 6) {
+                        const nuevaFila = document.createElement('tr');
+                        for (var i = 0; i < 3; i++) {
+                            const nuevaCelda = document.createElement('td');
+                            if (i == 0){
+                                nuevaCelda.className += 'orden';
+                            }
+                            if (i == 1) {
+                                nuevaCelda.textContent = nombre;
+                            }
+                            if (i == 2) {
+                                nuevaCelda.textContent = código;
+                            }
+                            nuevaFila.appendChild(nuevaCelda);
+                        }
+                        setTimeout(() => {
+                            tabla.appendChild(nuevaFila);
+                            ordenar();
+                        }, 1);
+                       
+                    }
+                    else {
+                        alert('Ingrese datos validos');
+                    }
+                    
+                }
+                
+                function eliminarFila(orden){
+                    const celdasOrden = document.querySelectorAll('.orden');
+                    if(orden != 0 && orden <= celdasOrden.length){
+                        tabla.deleteRow(orden);
+                    }
+                    else{
+                        alert('Ingrese un orden de fila existente')
+                    }
+                }
+                
+                function ordenar() {
+                    const celdasOrden = document.querySelectorAll('.orden');
+                    for (let i = 1; i <= celdasOrden.length; i++) {
+                        celdasOrden[i-1].textContent = i;
+                    }
+                }
+                
+                function crearEnMasa(cantidad) {
+                    
+                    for (let i = 1; i <= cantidad; i++) {
+                        console.log(i);
+                        const CuasiName = `ejemplo nombre ${i}`;
+                        const CuasiCode = `111111`;
+                        añadirFila(CuasiName, CuasiCode);
+                        
+                    }
+                } 
+                
+                
+            </script>
+        </div>
+	</body>
+</html>
